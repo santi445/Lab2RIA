@@ -1,0 +1,33 @@
+<div class="card">
+  <div class="card-header">
+    <h2>Componente 2</h2>
+  </div>
+  <div class="card-body">
+    <p class="card-text">Este es el contenido del componente 2.</p>
+    
+    <!-- Tabla para mostrar la lista de Pokémon -->
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Nombre del Pokémon</th>
+         
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Iterar sobre la lista de nombres de Pokémon-->
+        <tr *ngFor="let pokemon of pokemonList | paginate: { itemsPerPage: 20, currentPage: page }">
+          <td><a (click)="detallesPokemon(pokemon)"   >{{pokemon }}</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Paginación -->
+<div class="text-center">
+  <pagination-controls
+    (pageChange)="page = $event"
+    previousLabel="Anterior"
+    nextLabel="Siguiente">
+  </pagination-controls>
+</div>

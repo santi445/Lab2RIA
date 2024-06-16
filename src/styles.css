@@ -1,0 +1,12 @@
+body {
+    background-color: #f8f9fa;
+  }
+  
+  .navbar-nav .nav-item .nav-link.active {
+    font-weight: bold;
+  }
+  
+  .card {
+    margin: 20px 0;
+  }
+  
