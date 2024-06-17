@@ -3,6 +3,10 @@ import { HttpClient } from '@angular/common/http'; //  Módulo que permite reali
                                                   //  (como GET, POST, PUT, DELETE, etc.) 
                                                   //   a servidores remotos 
 import { Router, ActivatedRoute } from '@angular/router'
+import { forkJoin, Observable } from 'rxjs';
+
+
+
 @Component({
   selector: 'app-ejemplo-componente2',
   templateUrl: './ejemplo-componente2.component.html',
@@ -10,7 +14,7 @@ import { Router, ActivatedRoute } from '@angular/router'
 })
 export class EjemploComponente2 {
 
-  pokemonList: string[] = []; // Variable para almacenar los nombres de los Pokémon
+  pokemonList: { name: string, spriteUrl: string }[] = []; // Variable para almacenar los nombres y sprites de los Pokémon
   page: number = 1;
   
   ngOnInit(): void {
@@ -28,13 +32,23 @@ export class EjemploComponente2 {
                 return;
             }
 
-            // Concatenate new pokemon names to the list
-            this.pokemonList = this.pokemonList.concat(response.results.map((pokemon: any) => pokemon.name));
+            let observables: Observable<any>[] = response.results.map((pokemon: any) =>
+                this.http.get<any>(pokemon.url)
+            );
 
-            // Call recursively with updated offset
-            this.listarPokemons(endpoint, offset + limit, limit);
+            forkJoin(observables).subscribe((detailsArray: any[]) => {
+                detailsArray.forEach((details, index) => {
+                    this.pokemonList.push({
+                        name: response.results[index].name,
+                        spriteUrl: details.sprites.front_default
+                    });
+                });
+
+                // Call recursively with updated offset
+                this.listarPokemons(endpoint, offset + limit, limit);
+            });
         });
-  }
+}
 
   detallesPokemon(nombre: string){
     this.router.navigate(['nuevo-componente',nombre]);

@@ -1,1 +1,35 @@
-<p>nuevo-componente works!</p>
+<div class="card">
+    <div class="card-header">
+      <h2>Detalles de {{ nombre }}</h2>
+    </div>
+    <div class="card-body">
+      <div *ngIf="artworkUrl">
+        <img [src]="artworkUrl" alt="{{ nombre }}" />
+      </div>
+      <div>
+        <h3>N° Pokedex</h3>
+        <li> {{id}}</li>
+      </div>
+      <div>
+        <h3>Peso</h3>
+        <li> {{peso/10}} Kg</li>
+      </div>
+      <div>
+        <h3>Altura</h3>
+        <li> {{altura/10}} m</li>
+      </div>
+      <div *ngIf="types.length">
+        <h3>Tipo</h3>
+        <ul>
+          <li *ngFor="let type of types">{{ type }}</li>
+        </ul>
+      </div>
+      <div class="container" *ngIf="entries.length">
+        <div class="title" >Pokemon {{ entries[currentIndex].juego }}</div>
+        <div class="left" (click)="goBackward()">◄</div>
+        <div class="middle">{{ entries[currentIndex].texto }}</div>
+        <div class="right" (click)="goForward()">►</div>
+      </div>
+    </div>
+  </div>
+  

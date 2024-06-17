@@ -10,6 +10,7 @@ import { EjemploComponenteComponent } from './ejemplo-componente/ejemplo-compone
 import { EjemploComponente2 } from './ejemplo-componente2/ejemplo-componente2.component';
 import { NuevoComponenteComponent } from './nuevo-componente/nuevo-componente.component';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { EstadisticasComponent } from './estadisticas/estadisticas.component';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
     AppComponent,
     EjemploComponenteComponent,
     EjemploComponente2,
-    NuevoComponenteComponent
+    NuevoComponenteComponent,
+    EstadisticasComponent
   ],
   imports: [
     BrowserModule,
