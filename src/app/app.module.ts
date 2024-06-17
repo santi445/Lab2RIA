@@ -11,6 +11,9 @@ import { EjemploComponente2 } from './ejemplo-componente2/ejemplo-componente2.co
 import { NuevoComponenteComponent } from './nuevo-componente/nuevo-componente.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { EstadisticasComponent } from './estadisticas/estadisticas.component';
+import { FilterPipe } from './FilterPipe';
+import { SortPipe } from './SortPipe';
+
 
 
 @NgModule({
@@ -19,7 +22,9 @@ import { EstadisticasComponent } from './estadisticas/estadisticas.component';
     EjemploComponenteComponent,
     EjemploComponente2,
     NuevoComponenteComponent,
-    EstadisticasComponent
+    EstadisticasComponent,
+    FilterPipe,
+    SortPipe
   ],
   imports: [
     BrowserModule,
@@ -27,6 +32,10 @@ import { EstadisticasComponent } from './estadisticas/estadisticas.component';
     HttpClientModule,
     FormsModule,
     NgxPaginationModule,
+  ],
+  exports:[
+    FilterPipe,
+    SortPipe
   ],
   providers: [],
   bootstrap: [AppComponent]

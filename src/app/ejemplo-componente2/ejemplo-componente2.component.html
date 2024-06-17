@@ -4,18 +4,26 @@
   </div>
   <div class="card-body">
     <p class="card-text">Este es el contenido del componente 2.</p>
+
+    <!-- Filtro de búsqueda -->
+    <form class="mb-3 row">
+      <label for="searchInput" class="col-xs-3 col-sm-auto col-form-label">Buscar por nombre:</label>
+      <div class="col-xs-3 col-sm-auto">
+        <input id="searchInput" class="form-control" type="text" [(ngModel)]="searchText" name="searchInput" />
+      </div>
+    </form>
     
     <!-- Tabla para mostrar la lista de Pokémon -->
     <table class="table table-striped">
       <thead>
         <tr>
           <th scope="col">Sprite</th>
-          <th scope="col">Nombre del Pokémon</th>
+          <th scope="col" (click)="sort('name')" class="sortable-column">Nombre</th>
         </tr>
       </thead>
       <tbody>
         <!-- Iterar sobre la lista de nombres de Pokémon-->
-        <tr *ngFor="let pokemon of pokemonList | paginate: { itemsPerPage: 20, currentPage: page }">
+        <tr *ngFor="let pokemon of pokemonList | sort: sortBy: sortOrder  | filter: searchText | paginate: { itemsPerPage: 20, currentPage: page }">
           <td><img [src]="pokemon.spriteUrl" alt="{{ pokemon.name }}" /></td>
           <td><a (click)="detallesPokemon(pokemon.name)">{{ pokemon.name }}</a></td>
         </tr>
