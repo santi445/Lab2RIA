@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { forkJoin, Observable, of } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { catchError, map, switchMap, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-ejemplo-componente2',
@@ -11,11 +11,12 @@ import { catchError, map, switchMap } from 'rxjs/operators';
 })
 export class EjemploComponente2 implements OnInit {
 
-  pokemonList: { name: string, spriteUrl: string, types: string[] }[] = []; // Incluir tipos en la estructura
+  pokemonList: { name: string, spriteUrl: string, types: string[] }[] = [];
   page: number = 1;
-  searchText: string = ''; // Variable para la búsqueda
-  sortBy: string = ''; // Variable para almacenar la columna por la que se está ordenando
-  sortOrder: string = 'asc'; // Variable para almacenar el orden de clasificación (ascendente o descendente)
+  searchText: string = '';
+  sortBy: string = '';
+  sortOrder: string = 'asc';
+  loading: boolean = true; // Bandera de carga inicializada como true
 
   constructor(private http: HttpClient, private router: Router) { }
 
@@ -24,37 +25,57 @@ export class EjemploComponente2 implements OnInit {
   }
 
   listarPokemons() {
-    const endpoint = 'https://pokeapi.co/api/v2/pokemon';
-    
-    this.http.get<any>(`${endpoint}?limit=1`).pipe(
-      switchMap(response => {
-        const totalPokemons = response.count;
-        const requests: Observable<any>[] = [];
+    const limit = 100; // Cantidad de Pokémon por página
+    const totalPokemons = 1010; // Total de Pokémon a obtener
+    const totalPages = Math.ceil(totalPokemons / limit); // Calcular total de páginas
 
-        // Crear array de observables para todas las páginas
-        for (let offset = 0; offset < totalPokemons; offset += 100) {
-          requests.push(this.http.get<any>(`${endpoint}?offset=${offset}&limit=100`));
-        }
+    // Crear observables para todas las páginas
+    const requests: Observable<any>[] = [];
+    for (let page = 1; page <= totalPages; page++) {
+      requests.push(this.http.get<any>(`https://pokeapi.co/api/v2/pokemon?offset=${(page - 1) * limit}&limit=${limit}`));
+    }
 
-        return forkJoin(requests);
-      }),
+    forkJoin(requests).pipe(
+      tap(pages => console.log('Total pages fetched:', pages.length)),
       switchMap(pages => {
         const pokemonRequests: Observable<any>[] = [];
+        const uniquePokemonNames: Set<string> = new Set();
 
-        // Iterar sobre todas las páginas y obtener detalles de cada Pokémon
         pages.forEach((page: any) => {
           page.results.forEach((pokemon: any) => {
-            pokemonRequests.push(this.http.get<any>(pokemon.url).pipe(
-              map(details => ({
-                name: pokemon.name,
-                spriteUrl: details.sprites.front_default,
-                types: details.types.map((slot: any) => slot.type.name)
-              })),
-              catchError(error => {
-                console.error('Error fetching details for:', pokemon.name, error);
-                return of({ name: pokemon.name, spriteUrl: '', types: [] });
-              })
-            ));
+            const baseName = pokemon.name.split('-')[0];
+            if (!uniquePokemonNames.has(baseName)) {
+              uniquePokemonNames.add(baseName);
+              pokemonRequests.push(this.http.get<any>(pokemon.url).pipe(
+                switchMap(details => {
+                  const typeRequests: Observable<string>[] = details.types.map((slot: any) =>
+                    this.http.get<any>(slot.type.url).pipe(
+                      map(typeDetails => typeDetails.name),
+                      catchError(error => {
+                        console.error('Error fetching type:', slot.type.name, error);
+                        return of('');
+                      })
+                    )
+                  );
+
+                  return forkJoin(typeRequests).pipe(
+                    map(types => ({
+                      name: baseName,
+                      spriteUrl: details.sprites.front_default,
+                      types: types
+                    })),
+                    catchError(error => {
+                      console.error('Error fetching types for:', pokemon.name, error);
+                      return of({ name: baseName, spriteUrl: '', types: [] });
+                    })
+                  );
+                }),
+                catchError(error => {
+                  console.error('Error fetching details for:', pokemon.name, error);
+                  return of({ name: baseName, spriteUrl: '', types: [] });
+                })
+              ));
+            }
           });
         });
 
@@ -62,6 +83,7 @@ export class EjemploComponente2 implements OnInit {
       })
     ).subscribe(pokemonDetails => {
       this.pokemonList = pokemonDetails;
+      this.loading = false; // Cambiar la bandera de carga a false cuando se complete la obtención de datos
       console.log('All Pokémon listed:', this.pokemonList);
     });
   }

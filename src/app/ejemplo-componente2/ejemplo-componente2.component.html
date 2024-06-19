@@ -5,6 +5,11 @@
   <div class="card-body">
     <p class="card-text">Este es el contenido del componente 2.</p>
 
+    <!-- Mostrar mensaje de carga si loading es true -->
+    <div *ngIf="loading" class="text-center mb-3">
+      <p>Cargando Pokedex...</p>
+    </div>
+
     <!-- Filtro de búsqueda -->
     <form class="mb-3 row">
       <label for="searchInput" class="col-xs-3 col-sm-auto col-form-label">Buscar por nombre:</label>
@@ -14,16 +19,15 @@
     </form>
     
     <!-- Tabla para mostrar la lista de Pokémon -->
-    <table class="table table-striped">
+    <table class="table table-striped" *ngIf="!loading">
       <thead>
         <tr>
           <th scope="col">Sprite</th>
           <th scope="col" (click)="sort('name')" class="sortable-column">Nombre</th>
-          <th scope="col">Tipo</th> <!-- Nueva columna para mostrar los tipos -->
+          <th scope="col">Tipo</th>
         </tr>
       </thead>
       <tbody>
-        <!-- Iterar sobre la lista de nombres de Pokémon-->
         <tr *ngFor="let pokemon of pokemonList | sort: sortBy: sortOrder  | filter: searchText | paginate: { itemsPerPage: 20, currentPage: page }">
           <td><img [src]="pokemon.spriteUrl" alt="{{ pokemon.name }}" /></td>
           <td><a [routerLink]="['/nuevo-componente', pokemon.name]">{{ pokemon.name }}</a></td>
@@ -37,14 +41,14 @@
         </tr>
       </tbody>
     </table>
-  </div>
-</div>
 
-<!-- Paginación -->
-<div class="text-center">
-  <pagination-controls
-    (pageChange)="page = $event"
-    previousLabel="Anterior"
-    nextLabel="Siguiente">
-  </pagination-controls>
+    <!-- Paginación -->
+    <div class="text-center" *ngIf="!loading">
+      <pagination-controls
+        (pageChange)="page = $event"
+        previousLabel="Anterior"
+        nextLabel="Siguiente">
+      </pagination-controls>
+    </div>
+  </div>
 </div>
