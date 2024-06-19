@@ -1,1 +1,17 @@
-<p>estadisticas works!</p>
+
+
+<div class="card">
+    <div class="card-header">
+      <h2>Estadísticas de {{ nombrePokemon }}</h2>
+    </div>
+    <div class="card-body">
+      <apx-chart
+        [series]="chartOptions.series"
+        [chart]="chartOptions.chart"
+        [title]="chartOptions.title"
+        [xaxis]="chartOptions.xaxis"
+        [plotOptions]="chartOptions.plotOptions">
+      </apx-chart>
+    </div>
+  </div>
+  

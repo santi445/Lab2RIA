@@ -25,7 +25,7 @@
         <!-- Iterar sobre la lista de nombres de Pokémon-->
         <tr *ngFor="let pokemon of pokemonList | sort: sortBy: sortOrder  | filter: searchText | paginate: { itemsPerPage: 20, currentPage: page }">
           <td><img [src]="pokemon.spriteUrl" alt="{{ pokemon.name }}" /></td>
-          <td><a (click)="detallesPokemon(pokemon.name)">{{ pokemon.name }}</a></td>
+          <td><a [routerLink]="['/nuevo-componente', pokemon.name]">{{ pokemon.name }}</a></td>
         </tr>
       </tbody>
     </table>

@@ -70,10 +70,6 @@ export class EjemploComponente2 implements OnInit {
     });
   }
 
-  detallesPokemon(nombre: string) {
-    this.router.navigate(['nuevo-componente', nombre]);
-  }
-
   sort(column: string) {
     if (column === this.sortBy) {
       this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';

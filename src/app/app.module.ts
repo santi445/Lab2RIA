@@ -13,6 +13,9 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { EstadisticasComponent } from './estadisticas/estadisticas.component';
 import { FilterPipe } from './FilterPipe';
 import { SortPipe } from './SortPipe';
+import { TipoComponent } from './tipo/tipo.component';
+import { NgApexchartsModule } from 'ng-apexcharts';
+
 
 
 
@@ -24,7 +27,8 @@ import { SortPipe } from './SortPipe';
     NuevoComponenteComponent,
     EstadisticasComponent,
     FilterPipe,
-    SortPipe
+    SortPipe,
+    TipoComponent
   ],
   imports: [
     BrowserModule,
@@ -32,6 +36,7 @@ import { SortPipe } from './SortPipe';
     HttpClientModule,
     FormsModule,
     NgxPaginationModule,
+    NgApexchartsModule
   ],
   exports:[
     FilterPipe,

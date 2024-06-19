@@ -21,8 +21,13 @@
       <div *ngIf="types.length">
         <h3>Tipo</h3>
         <ul>
-          <li *ngFor="let type of types">{{ type }}</li>
-        </ul>
+          <li *ngFor="let type of types">
+            <a [routerLink]="['/tipo', type]">{{ type }}</a>
+          </li>        </ul>
+      </div>
+      <div>
+        <td><a [routerLink]="['/estadisticas', nombre]">Ver Estadísticas</a></td>
+        
       </div>
       <div class="container" *ngIf="entries.length">
         <div class="title" >Pokemon {{ entries[currentIndex].juego }}</div>
