@@ -11,7 +11,7 @@ import { catchError, map, switchMap } from 'rxjs/operators';
 })
 export class EjemploComponente2 implements OnInit {
 
-  pokemonList: { name: string, spriteUrl: string }[] = []; // Variable para almacenar los nombres y sprites de los Pokémon
+  pokemonList: { name: string, spriteUrl: string, types: string[] }[] = []; // Incluir tipos en la estructura
   page: number = 1;
   searchText: string = ''; // Variable para la búsqueda
   sortBy: string = ''; // Variable para almacenar la columna por la que se está ordenando
@@ -40,25 +40,21 @@ export class EjemploComponente2 implements OnInit {
       }),
       switchMap(pages => {
         const pokemonRequests: Observable<any>[] = [];
-        const uniquePokemonNames: Set<string> = new Set();
 
-        // Extraer todas las URLs de Pokémon y crear array de observables para sus detalles
+        // Iterar sobre todas las páginas y obtener detalles de cada Pokémon
         pages.forEach((page: any) => {
           page.results.forEach((pokemon: any) => {
-            const baseName = pokemon.name.split('-')[0];
-            if (!uniquePokemonNames.has(baseName)) {
-              uniquePokemonNames.add(baseName);
-              pokemonRequests.push(this.http.get<any>(pokemon.url).pipe(
-                map(details => ({
-                  name: baseName,
-                  spriteUrl: details.sprites.front_default
-                })),
-                catchError(error => {
-                  console.error('Error fetching details for:', pokemon.name, error);
-                  return of({ name: baseName, spriteUrl: '' });
-                })
-              ));
-            }
+            pokemonRequests.push(this.http.get<any>(pokemon.url).pipe(
+              map(details => ({
+                name: pokemon.name,
+                spriteUrl: details.sprites.front_default,
+                types: details.types.map((slot: any) => slot.type.name)
+              })),
+              catchError(error => {
+                console.error('Error fetching details for:', pokemon.name, error);
+                return of({ name: pokemon.name, spriteUrl: '', types: [] });
+              })
+            ));
           });
         });
 
@@ -77,5 +73,9 @@ export class EjemploComponente2 implements OnInit {
       this.sortBy = column;
       this.sortOrder = 'asc';
     }
+  }
+
+  navigateToType(type: string) {
+    this.router.navigate(['/tipo', type]);
   }
 }

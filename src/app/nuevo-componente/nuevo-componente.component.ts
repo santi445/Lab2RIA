@@ -75,4 +75,8 @@ export class NuevoComponenteComponent implements OnInit {
       console.error('Error fetching Pokémon descriptions:', error);
     }
   }
+
+  navigateToType(type: string) {
+    this.router.navigate(['/tipo', type]);
+  }
 }

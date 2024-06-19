@@ -50,4 +50,8 @@ export class TipoComponent {
     }
   }
 
+  navigateToType(type: string) {
+    this.router.navigate(['/tipo', type]);
+  }
+
 }

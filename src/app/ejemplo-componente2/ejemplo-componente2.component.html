@@ -19,6 +19,7 @@
         <tr>
           <th scope="col">Sprite</th>
           <th scope="col" (click)="sort('name')" class="sortable-column">Nombre</th>
+          <th scope="col">Tipo</th> <!-- Nueva columna para mostrar los tipos -->
         </tr>
       </thead>
       <tbody>
@@ -26,6 +27,13 @@
         <tr *ngFor="let pokemon of pokemonList | sort: sortBy: sortOrder  | filter: searchText | paginate: { itemsPerPage: 20, currentPage: page }">
           <td><img [src]="pokemon.spriteUrl" alt="{{ pokemon.name }}" /></td>
           <td><a [routerLink]="['/nuevo-componente', pokemon.name]">{{ pokemon.name }}</a></td>
+          <td>
+            <div *ngIf="pokemon.types && pokemon.types.length > 0" class="pokemon-types">
+              <div *ngFor="let type of pokemon.types" class="pokemon-type" [ngClass]="'type-' + type" (click)="navigateToType(type)">
+                <span>{{ type }}</span>
+              </div>
+            </div>
+          </td>
         </tr>
       </tbody>
     </table>

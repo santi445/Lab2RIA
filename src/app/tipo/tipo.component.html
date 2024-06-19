@@ -1,69 +1,66 @@
 <div class="card">
-    <div class="card-header">
-      <h2>Detalles de {{ nombre }}</h2>
-    </div>
-    <div class="card-body">  
-        <h3>Le hace daño doble a:</h3>
-        <ul>
-          <li *ngFor="let dobledanio of dobleDanioTo">
-            <a [routerLink]="['/tipo', dobledanio]">{{ dobledanio }}</a>
-          </li>
-          <li *ngIf="dobleDanioTo.length===0">
-                <h3>Ninguno</h3>
-          </li>
-        </ul>
-
-        <h3>Recibe daño doble de:</h3>
-        <ul>
-          <li *ngFor="let daniodoble of dobleDanioFrom">
-            <a [routerLink]="['/tipo', daniodoble]">{{ daniodoble }}</a>
-          </li>
-          <li *ngIf="dobleDanioFrom.length===0">
-                <h3>Ninguno</h3>
-          </li>
-        </ul>
-
-        <h3>Le hace daño doble a:</h3>
-        <ul>
-          <li *ngFor="let mitaddanio of mitadDanioTo">
-            <a [routerLink]="['/tipo', mitaddanio]">{{ mitaddanio }}</a>
-          </li>
-          <li *ngIf="mitadDanioTo.length===0">
-                <h3>Ninguno</h3>
-          </li>
-        </ul>
-
-        <h3>Recibe daño doble de:</h3>
-        <ul>
-          <li *ngFor="let daniomitad of mitadDanioFrom">
-            <a [routerLink]="['/tipo', daniomitad]">{{ daniomitad }}</a>
-          </li>
-          <li *ngIf="mitadDanioFrom.length===0">
-                <h3>Ninguno</h3>
-          </li>
-        </ul>
-
-        <h3>No le hace daño a:</h3>
-        <ul>
-          <li *ngFor="let nodanio of noDanioTo">
-            <a [routerLink]="['/tipo', nodanio]">{{ nodanio }}</a>
-          </li>
-          <li *ngIf="noDanioTo.length===0">
-                <h3>Ninguno</h3>
-          </li>
-        </ul>
-
-        <h3>No recibe daño de:</h3>
-        <ul>
-          <li *ngFor="let daniono of noDanioFrom">
-            <a [routerLink]="['/tipo', daniono]">{{ daniono }}</a>
-          </li>
-          <li *ngIf="noDanioFrom.length===0">
-                <h3>Ninguno</h3>
-          </li>
-        </ul>
-        
-
-    </div>
+  <div class="card-header">
+    <h2 class="pokemon-type" [ngClass]="'type-' + nombre">{{ nombre }}</h2>
   </div>
-  
+  <div class="card-body">
+      <h3>Le hace daño doble a:</h3>
+      <div class="pokemon-types">
+        <div *ngFor="let dobledanio of dobleDanioTo" class="pokemon-type" [ngClass]="'type-' + dobledanio" (click)="navigateToType(dobledanio)">
+          <span>{{ dobledanio }}</span>
+        </div>
+        <div *ngIf="dobleDanioTo.length === 0">
+          <h3>Ninguno</h3>
+        </div>
+      </div>
+
+      <h3>Recibe daño doble de:</h3>
+      <div class="pokemon-types">
+        <div *ngFor="let daniodoble of dobleDanioFrom" class="pokemon-type" [ngClass]="'type-' + daniodoble" (click)="navigateToType(daniodoble)">
+          <span>{{ daniodoble }}</span>
+        </div>
+        <div *ngIf="dobleDanioFrom.length === 0">
+          <h3>Ninguno</h3>
+        </div>
+      </div>
+
+      <h3>Le hace la mitad de daño a:</h3>
+      <div class="pokemon-types">
+        <div *ngFor="let mitaddanio of mitadDanioTo" class="pokemon-type" [ngClass]="'type-' + mitaddanio" (click)="navigateToType(mitaddanio)">
+          <span>{{ mitaddanio }}</span>
+        </div>
+        <div *ngIf="mitadDanioTo.length === 0">
+          <h3>Ninguno</h3>
+        </div>
+      </div>
+
+      <h3>Recibe la mitad de daño de:</h3>
+      <div class="pokemon-types">
+        <div *ngFor="let daniomitad of mitadDanioFrom" class="pokemon-type" [ngClass]="'type-' + daniomitad" (click)="navigateToType(daniomitad)">
+          <span>{{ daniomitad }}</span>
+        </div>
+        <div *ngIf="mitadDanioFrom.length === 0">
+          <h3>Ninguno</h3>
+        </div>
+      </div>
+
+      <h3>No le hace daño a:</h3>
+      <div class="pokemon-types">
+        <div *ngFor="let nodanio of noDanioTo" class="pokemon-type" [ngClass]="'type-' + nodanio" (click)="navigateToType(nodanio)">
+          <span>{{ nodanio }}</span>
+        </div>
+        <div *ngIf="noDanioTo.length === 0">
+          <h3>Ninguno</h3>
+        </div>
+      </div>
+
+      <h3>No recibe daño de:</h3>
+      <div class="pokemon-types">
+        <div *ngFor="let daniono of noDanioFrom" class="pokemon-type" [ngClass]="'type-' + daniono" (click)="navigateToType(daniono)">
+          <span>{{ daniono }}</span>
+        </div>
+        <div *ngIf="noDanioFrom.length === 0">
+          <h3>Ninguno</h3>
+        </div>
+      </div>
+  </div>
+</div>
