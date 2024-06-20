@@ -8,7 +8,6 @@ export type ChartOptions = {
   series: apex.ApexAxisChartSeries;
   chart: apex.ApexChart;
   xaxis: apex.ApexXAxis;
-  title: apex.ApexTitleSubtitle;
   plotOptions: apex.ApexPlotOptions;
 };
 
@@ -46,18 +45,18 @@ export class EstadisticasComponent implements OnInit {
     const url = `https://pokeapi.co/api/v2/pokemon/${nombrePokemon}`;
     try {
       const response = await this.http.get<any>(url).toPromise();
-      this.nombreEstadistica = response.stats.map((statInfo: any) => statInfo.stat.name);
+      this.nombreEstadistica = response.stats.map((statInfo: any) => statInfo.stat.name.replaceAll('-', ' '));
       this.valorEstadistica = response.stats.map((statInfo: any) => statInfo.base_stat);
 
       this.chartOptions = {
         series:[{
-          name: 'Estadistica',
-          data: this.valorEstadistica
+          name: 'Valor',
+          data: this.valorEstadistica,
         }],
         chart: {type: 'bar'}, 
         xaxis:{categories: this.nombreEstadistica}, 
-        title: {text:'Estadisticas de ' + nombrePokemon},
-        plotOptions:{bar:{horizontal:true}}
+        plotOptions:{bar:{horizontal:true, distributed: true}},
+        colors:['#fe0000', '#f07f2f', '#f8d030', '#6890f0', '#78c750', '#f85888']
     };
 /*
       this.xaxis = {

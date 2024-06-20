@@ -58,6 +58,13 @@ export class NuevoComponenteComponent implements OnInit {
       this.altura = response.height;
       this.peso = response.weight;
       this.id = response.id;
+
+      let audio = new Audio();
+      audio.src = response.cries.legacy === null ? response.cries.latest : response.cries.legacy;
+      audio.volume=0.1;
+      audio.load();
+      audio.play();
+
     } catch (error) {
       console.error('Error fetching Pokémon details:', error);
     }

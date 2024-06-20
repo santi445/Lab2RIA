@@ -2,15 +2,15 @@
 
 <div class="card">
     <div class="card-header">
-      <h2>Estadísticas de {{ nombrePokemon }}</h2>
+      <h2>Estadísticas de {{ nombrePokemon.replaceAll('-', ' ') |titlecase }}</h2>
     </div>
     <div class="card-body">
       <apx-chart
         [series]="chartOptions.series"
         [chart]="chartOptions.chart"
-        [title]="chartOptions.title"
         [xaxis]="chartOptions.xaxis"
-        [plotOptions]="chartOptions.plotOptions">
+        [plotOptions]="chartOptions.plotOptions"
+        [colors]="chartOptions.colors">
       </apx-chart>
     </div>
   </div>

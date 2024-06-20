@@ -2,86 +2,62 @@
     cursor: pointer;
   }
 
-  .pokemon-type {
-    padding: 5px 10px;
-    border-radius: 5px;
-    color: white;
-    text-transform: capitalize;
-    display: inline-block;
-    margin: 5px;
-    cursor: pointer;
-  }
-  
-  .type-bug {
-    background-color: var(--bug-color);
-    border-color: var(--bug-color);
-  }
-  .type-dark {
-    background-color: var(--dark-color);
-    border-color: var(--dark-color);
-  }
-  .type-dragon {
-    background-color: var(--dragon-color);
-    border-color: var(--dragon-color);
-  }
-  .type-electric {
-    background-color: var(--electric-color);
-    border-color: var(--electric-color);
-  }
-  .type-fairy {
-    background-color: var(--fairy-color);
-    border-color: var(--fairy-color);
-  }
-  .type-fighting {
-    background-color: var(--fighting-color);
-    border-color: var(--fighting-color);
-  }
-  .type-fire {
-    background-color: var(--fire-color);
-    border-color: var(--fire-color);
-  }
-  .type-flying {
-    background-color: var(--flying-color);
-    border-color: var(--flying-color);
-  }
-  .type-ghost {
-    background-color: var(--ghost-color);
-    border-color: var(--ghost-color);
-  }
-  .type-grass {
-    background-color: var(--grass-color);
-    border-color: var(--grass-color);
-  }
-  .type-ground {
-    background-color: var(--ground-color);
-    border-color: var(--ground-color);
-  }
-  .type-ice {
-    background-color: var(--ice-color);
-    border-color: var(--ice-color);
-  }
-  .type-normal {
-    background-color: var(--normal-color);
-    border-color: var(--normal-color);
-  }
-  .type-poison {
-    background-color: var(--poison-color);
-    border-color: var(--poison-color);
-  }
-  .type-psychic {
-    background-color: var(--psychic-color);
-    border-color: var(--psychic-color);
-  }
-  .type-rock {
-    background-color: var(--rock-color);
-    border-color: var(--rock-color);
-  }
-  .type-steel {
-    background-color: var(--steel-color);
-    border-color: var(--steel-color);
-  }
-  .type-water {
-    background-color: var(--water-color);
-    border-color: var(--water-color);
-  }
-  
+a {
+  font-family: "DM Sans", sans-serif;
+  text-decoration: none;
+  text-transform: capitalize;
+  color: var(--text-color);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th,
+.table td {
+  padding: 10px;
+  text-align: left;
+}
+
+.pokemon-row {
+  background-size: contain; /* Ensure the background image covers the entire cell */
+  background-position: center; /* Center the background image */
+  width: 100%;
+}
+
+/* Styles for each Pokemon row */
+.pokemon-cell {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.pokemon-image {
+  height: 200px; /* Occupies 100% of the row height */
+  width: 200px;
+  max-height: 200px; /* Adjust as needed */
+  max-width: 200px; /* Adjust as needed */
+  filter: drop-shadow(1px 1px 2px black);
+}
+
+.pokemon-info {
+  display: flex;
+  align-items: center;
+}
+
+.pokemon-name {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis; /* Prevent name from overflowing */
+  white-space: nowrap; /* Ensure name does not break into multiple lines */
+  font-size: 70px; /* Initial font size */
+  margin-left: 10px; /* Space between image and name */
+}
+
+.pokemon-types {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Align types to the center horizontally */
+  margin-right: 10px;
+}

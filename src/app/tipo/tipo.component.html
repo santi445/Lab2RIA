@@ -1,5 +1,5 @@
 <div class="card">
-  <div class="card-header">
+  <div class="card-header" style="background-position: center;" [ngClass]="'type-background-' + nombre">
     <h2 class="pokemon-type" [ngClass]="'type-' + nombre">{{ nombre }}</h2>
   </div>
   <div class="card-body">

@@ -13,6 +13,7 @@ export class EjemploComponente2 implements OnInit {
 
   pokemonList: { name: string, spriteUrl: string, types: string[] }[] = [];
   page: number = 1;
+  itemsPerPage: number = 10;
   searchText: string = '';
   sortBy: string = '';
   sortOrder: string = 'asc';
@@ -25,57 +26,37 @@ export class EjemploComponente2 implements OnInit {
   }
 
   listarPokemons() {
-    const limit = 100; // Cantidad de Pokémon por página
-    const totalPokemons = 1010; // Total de Pokémon a obtener
-    const totalPages = Math.ceil(totalPokemons / limit); // Calcular total de páginas
+    const endpoint = 'https://pokeapi.co/api/v2/pokemon';
+    
+    this.http.get<any>(`${endpoint}?limit=1`).pipe(
+      switchMap(response => {
+        const totalPokemons = response.count;
+        const requests: Observable<any>[] = [];
 
-    // Crear observables para todas las páginas
-    const requests: Observable<any>[] = [];
-    for (let page = 1; page <= totalPages; page++) {
-      requests.push(this.http.get<any>(`https://pokeapi.co/api/v2/pokemon?offset=${(page - 1) * limit}&limit=${limit}`));
-    }
+        // Crear array de observables para todas las páginas
+        for (let offset = 0; offset < totalPokemons; offset += 100) {
+          requests.push(this.http.get<any>(`${endpoint}?offset=${offset}&limit=100`));
+        }
 
-    forkJoin(requests).pipe(
-      tap(pages => console.log('Total pages fetched:', pages.length)),
+        return forkJoin(requests);
+      }),
       switchMap(pages => {
         const pokemonRequests: Observable<any>[] = [];
-        const uniquePokemonNames: Set<string> = new Set();
 
+        // Iterar sobre todas las páginas y obtener detalles de cada Pokémon
         pages.forEach((page: any) => {
           page.results.forEach((pokemon: any) => {
-            const baseName = pokemon.name.split('-')[0];
-            if (!uniquePokemonNames.has(baseName)) {
-              uniquePokemonNames.add(baseName);
-              pokemonRequests.push(this.http.get<any>(pokemon.url).pipe(
-                switchMap(details => {
-                  const typeRequests: Observable<string>[] = details.types.map((slot: any) =>
-                    this.http.get<any>(slot.type.url).pipe(
-                      map(typeDetails => typeDetails.name),
-                      catchError(error => {
-                        console.error('Error fetching type:', slot.type.name, error);
-                        return of('');
-                      })
-                    )
-                  );
-
-                  return forkJoin(typeRequests).pipe(
-                    map(types => ({
-                      name: baseName,
-                      spriteUrl: details.sprites.front_default,
-                      types: types
-                    })),
-                    catchError(error => {
-                      console.error('Error fetching types for:', pokemon.name, error);
-                      return of({ name: baseName, spriteUrl: '', types: [] });
-                    })
-                  );
-                }),
-                catchError(error => {
-                  console.error('Error fetching details for:', pokemon.name, error);
-                  return of({ name: baseName, spriteUrl: '', types: [] });
-                })
-              ));
-            }
+            pokemonRequests.push(this.http.get<any>(pokemon.url).pipe(
+              map(details => ({
+                name: pokemon.name,
+                spriteUrl: details.sprites.front_default === null ? details.sprites.other['official-artwork'].front_default : details.sprites.front_default,
+                types: details.types.map((slot: any) => slot.type.name)
+              })),
+              catchError(error => {
+                console.error('Error fetching details for:', pokemon.name, error);
+                return of({ name: pokemon.name, spriteUrl: '', types: [] });
+              })
+            ));
           });
         });
 
@@ -83,7 +64,7 @@ export class EjemploComponente2 implements OnInit {
       })
     ).subscribe(pokemonDetails => {
       this.pokemonList = pokemonDetails;
-      this.loading = false; // Cambiar la bandera de carga a false cuando se complete la obtención de datos
+      this.loading = false;
       console.log('All Pokémon listed:', this.pokemonList);
     });
   }
