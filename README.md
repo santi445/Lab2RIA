@@ -1,27 +1,41 @@
-# ProyectoRIA
+# Laboratorio 2024 RIA
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.12.
+## Descripción
 
-## Development server
+El presente es un proyecto inspirado en una Pokedex (enciclopedia electrónica portatil) utilizando la API Rest [PokeApi v2](https://github.com/angular/angular-cli), en donde se visualizan las diferentes especies de pokémon que existen. La interfaz es intuitiva y permite encontrar a los pokémon mediante su tipo de manera rápida. También se agregaron filtros para realizar una búsqueda más ágil por nombre y orden alfabético. Al seleccionar un pokémon de la lista, se muestra su información relacionada.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+La solución hace uso de mas de dos componentes en angular que intercambian información, la página principal que lista a los pokémons permite seleccionar uno. Esta información se envía al componente número dos al seleccionar un pokémon de las lista, recibe el ‘id’ y muestra su información.
 
-## Code scaffolding
+Componentes visuales utilizados: tablas, botones, paginación, input de búsqueda.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Integrantes del Proyecto
 
-## Build
+* Santiago Gamarra
+* Juan Marín
+* Anna Torres
+* Jonatan Marroco
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## Instalación
 
-## Running unit tests
+Se debe de tener Node version 20.14.0 o superior.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Comandos para iniciar (Parado sobre el directorio del proyecto):
+* npm install
+* npm start
 
-## Running end-to-end tests
+Colocar URL en el navegador o hacer ctrl + click en la URL que se muestra en la terminal.
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+## Tecnologías Utilizadas
 
-## Further help
+* Angular + Bootstrap
+* Consumo de API Rest
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Angular: 
+  * Framework desarrollado en typescript, que permite realizar aplicaciones web de una sola página o SPA y aplicaciones web      dinámicas. Angular sigue el patrón de arquitectura de software Modelo-Vista-Controlador (MVC).
+
+Bootstrap: 
+  * Framework que proporciona herramientas para el desarrollo de aplicaciones web responsive. Combina CSS y JavaScript para      estilizar elementos HTML
+
+## Historia de Usuario
+
+Como usuario frecuente de la aplicación pokémon, quiero poder obtener la información necesaria para poder jugar en competencias con otros usuarios de manera eficiente.
