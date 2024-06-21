@@ -39,3 +39,7 @@ Bootstrap:
 ## Historia de Usuario
 
 Como usuario frecuente de la aplicación pokémon, quiero poder obtener la información necesaria para poder jugar en competencias con otros usuarios de manera eficiente.
+
+## Mockups
+
+![Mockups](diagramas.jpg)
