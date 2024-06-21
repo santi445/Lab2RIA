@@ -19,11 +19,16 @@ Componentes visuales utilizados: tablas, botones, paginación, input de búsqued
 
 Se debe de tener Node version 20.14.0 o superior.
 
-Comandos para iniciar (Parado sobre el directorio del proyecto):
+Comandos para iniciar (Desarrollo):
 * npm install
 * npm start
-
 Colocar URL en el navegador o hacer ctrl + click en la URL que se muestra en la terminal.
+
+Comandos para iniciar (Docker):
+(Utilizamos Docker 4.31.1)
+* docker build --pull --rm -f "Dockerfile" -t lab2ria:v1 "."
+* docker run --rm -d -p 80:80/tcp lab2ria:v1
+Con los comandos utilizados, la aplicación de lanza en localhost:80.
 
 ## Tecnologías Utilizadas
 
